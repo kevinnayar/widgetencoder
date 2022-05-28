@@ -1,17 +1,8 @@
-# 🔴 full circle
+# widgetencoder
 
-Get nice chart png's via a REST API
+A proof of concept to take object definitions for UI entities like "widgets" and enable fast searching capabilities against them.
 
-## Examples:
-
-`type: 'pie'`
-
-```
-[{"name":"foo","value":25},{"name":"bar","value":35},{"name":"baz","value":27},{"name":"bat","value":13}]
-```
-
-`type: 'bar' | 'area' | 'line'`
-
-```
-[{"name":"Jan","revenue":4000,"profit":2400},{"name":"Feb","revenue":3000,"profit":1398},{"name":"Mar","revenue":4600,"profit":3800},{"name":"Apr","revenue":2780,"profit":1908},{"name":"Jun","revenue":1890,"profit":1800},{"name":"Jul","revenue":2390,"profit":1800}]
-```
+## Steps
+1. Create a custom encoding scheme to translate objects into simple strings with the ability to transform between objects and string with speed.
+1. Leverage existing string search algorithms (like Jaro-Winkler in this case) to measure the edit distance between two string sequences.
+1. Index a wide range of existing configurations to create the source search dataset.
