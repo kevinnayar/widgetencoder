@@ -14,7 +14,7 @@ import {
   encodeWidgets,
   decodeWidgets,
   getSearchResults,
-  generateRandomCollections
+  // generateRandomCollections
 } from './utils/encodingUtils';
 
 const App = () => {
@@ -61,51 +61,52 @@ const App = () => {
     }
   };
 
-  const handleGenerateWidgets = () => {
-    generateRandomCollections(5000);
-  };
+  // const handleGenerateWidgets = () => {
+  //   generateRandomCollections(5000);
+  // };
 
   return (
     <div className='app'>
       <div className="header">
         <Dropdown list={widgetList} onChange={handleSetWidgetType} />
         <Button onClick={handleCreateWidget}>Create</Button>
-        <Button onClick={handleGenerateWidgets}>Generate</Button>
+        {/* <Button onClick={handleGenerateWidgets}>Generate</Button> */}
         <Checkbox value="Show Decoded" checked={showDecoded} setChecked={setShowDecoded} />
         <Checkbox value="Show Encoded" checked={showEncoded} setChecked={setShowEncoded} />
       </div>
 
-      {widgets.length ? (
-        <div className="content">
-
-          <div className="content__preview">
-            <h2>Preview</h2>
-            <div className="widgets">
-              {widgets.map(({ type }, index) => (
-                <WidgetDisplay key={`${type}.${index}`} type={type} index={index} onDeleteWidget={handleDeleteWidget} />
-              ))}
+      <div className="content">
+        {widgets.length ? (
+          <>
+            <div className="content__preview">
+              <h2>Preview</h2>
+              <div className="widgets">
+                {widgets.map(({ type }, index) => (
+                  <WidgetDisplay key={`${type}.${index}`} type={type} index={index} onDeleteWidget={handleDeleteWidget} />
+                ))}
+              </div>
             </div>
-          </div>
 
-          <div className="content__results">
-            <h2>Search Results</h2>
-            <div className="search__results">
-              {searchResults.map(({ match, score }, index) => {
-                const widgets = decodeWidgets(match);
-                return (
-                  <div className="widgets" key={`${match}.${score}.${index}`}>
-                    {widgets.map(({ type }, index) => (
-                      <WidgetDisplay key={`${type}.${index}`} type={type} index={index} />
-                    ))}
-                  </div>
-                );
-              })}
+            <div className="content__results">
+              <h2>Search Results</h2>
+              <div className="search__results">
+                {searchResults.map(({ match, score }, index) => {
+                  const widgets = decodeWidgets(match);
+                  return (
+                    <div className="widgets" key={`${match}.${score}.${index}`}>
+                      {widgets.map(({ type }, index) => (
+                        <WidgetDisplay key={`${type}.${index}`} type={type} index={index} />
+                      ))}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        </div>
-      ) : (
-        <div className="no-results">No data to show. Create some widgets!</div>
-      )}
+          </>
+        ) : (
+          <div className="no-results">No data to show. Create some widgets!</div>
+        )}
+      </div>
 
       <div className="sections">
         {showDecoded && <CodeSection title="Decoded Widgets" content={decoded} />}

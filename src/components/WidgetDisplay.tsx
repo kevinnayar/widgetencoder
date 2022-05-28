@@ -32,7 +32,11 @@ const InlineWidgetDisplay = ({ type }: { type: WidgetType }) => {
       break;
     }
     default: {
-      throw new Error(`Unexpected type: ${type}`);
+      return (
+        <div className='widget'>
+          <p>Incorrect widget type: "{type}"</p>
+        </div>
+      );
     }
   }
 
