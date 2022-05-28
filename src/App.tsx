@@ -1,12 +1,5 @@
 import * as React from 'react';
 import { useState } from 'react';
-import {
-  createWidget,
-  encodeWidgets,
-  decodeWidgets,
-  getSearchResults,
-  generateRandomCollections
-} from './utils/encodingUtils';
 
 import { CodeSection } from './components/CodeSection';
 import { WidgetDisplay } from './components/WidgetDisplay';
@@ -16,7 +9,13 @@ import { Button } from './components/Button';
 
 import { Widget, WidgetType, SearchResult } from './types/widgetTypes';
 import { widgetList, encodedLists } from './constants';
-
+import {
+  createWidget,
+  encodeWidgets,
+  decodeWidgets,
+  getSearchResults,
+  generateRandomCollections
+} from './utils/encodingUtils';
 
 const App = () => {
   const [widgetType, setWidgetType] = useState<WidgetType>('WidgetInputText');
@@ -36,18 +35,13 @@ const App = () => {
   };
 
   const handleUpdateSearch = (newWidgets: Widget[]) => {
-    setWidgets(newWidgets);
-
     const newEncoded = encodeWidgets(newWidgets);
-    setEncoded(newEncoded);
-
     const newDecoded = decodeWidgets(newEncoded);
-    setDecoded(newDecoded);
+    const newSearchResults = getSearchResults(newEncoded, encodedLists).slice(0, 5);
 
-    const newSearchResults = getSearchResults(newEncoded, encodedLists).slice(
-      0,
-      5
-    );
+    setWidgets(newWidgets);
+    setEncoded(newEncoded);
+    setDecoded(newDecoded);
     setSearchResults(newSearchResults);
   };
 
@@ -110,7 +104,7 @@ const App = () => {
           </div>
         </div>
       ) : (
-        <div className="no-results">No data to show</div>
+        <div className="no-results">No data to show. Create some widgets!</div>
       )}
 
       <div className="sections">
