@@ -22,12 +22,13 @@ const App = () => {
   const [widgets, setWidgets] = useState<Widget[]>([]);
 
   const [encoded, setEncoded] = useState<string>(encodeWidgets(widgets));
-  const [decoded, setDecoded] = useState<Widget[]>(decodeWidgets(encoded));
-
   const [showEncoded, setShowEncoded] = useState(false);
+
+  const [decoded, setDecoded] = useState<Widget[]>(decodeWidgets(encoded));
   const [showDecoded, setShowDecoded] = useState(false);
 
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [results, setResults] = useState<SearchResult[]>([]);
+  const [showResults, setShowResults] = useState(false);
 
   const handleSetWidgetType = (e: any) => {
     const type = e.target.value as WidgetType;
@@ -42,7 +43,7 @@ const App = () => {
     setWidgets(newWidgets);
     setEncoded(newEncoded);
     setDecoded(newDecoded);
-    setSearchResults(newSearchResults);
+    setResults(newSearchResults);
   };
 
   const handleCreateWidget = () => {
@@ -71,6 +72,7 @@ const App = () => {
         <Dropdown list={widgetList} onChange={handleSetWidgetType} />
         <Button onClick={handleCreateWidget}>Create</Button>
         {/* <Button onClick={handleGenerateWidgets}>Generate</Button> */}
+        <Checkbox value="Show Results" checked={showResults} setChecked={setShowResults} />
         <Checkbox value="Show Decoded" checked={showDecoded} setChecked={setShowDecoded} />
         <Checkbox value="Show Encoded" checked={showEncoded} setChecked={setShowEncoded} />
       </div>
@@ -89,8 +91,8 @@ const App = () => {
 
             <div className="content__results">
               <h2>Search Results</h2>
-              <div className="search__results">
-                {searchResults.map(({ match, score }, index) => {
+              <div className="search-results">
+                {showResults ? results.map(({ match, score }, index) => {
                   const widgets = decodeWidgets(match);
                   return (
                     <div className="widgets" key={`${match}.${score}.${index}`}>
@@ -99,7 +101,7 @@ const App = () => {
                       ))}
                     </div>
                   );
-                })}
+                }) : <div className="no-results">Results are hidden!</div> }
               </div>
             </div>
           </>

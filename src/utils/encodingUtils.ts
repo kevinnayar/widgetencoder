@@ -9,24 +9,24 @@ import {
 function widgetEncoder(abbr: string, widget: Widget): string {
   let encoded = abbr;
 
-  encoded += widget.required ? "1" : "0";
-  encoded += widget.label ? "1" : "0";
+  encoded += widget.required ? '1' : '0';
+  encoded += widget.label ? '1' : '0';
 
-  if ("min" in widget && "max" in widget) {
-    encoded += widget.min.toString().padStart(3, "0");
-    encoded += widget.max.toString().padStart(3, "0");
+  if ('min' in widget && 'max' in widget) {
+    encoded += widget.min.toString().padStart(3, '0');
+    encoded += widget.max.toString().padStart(3, '0');
   }
 
-  if ("step" in widget) {
-    encoded += widget.step.toString().padStart(3, "0");
+  if ('step' in widget) {
+    encoded += widget.step.toString().padStart(3, '0');
   }
 
-  if ("options" in widget) {
-    encoded += widget.options.length.toString().padStart(3, "0");
+  if ('options' in widget) {
+    encoded += widget.options.length.toString().padStart(3, '0');
   }
 
-  if ("defaultOption" in widget) {
-    encoded += widget.defaultOption ? "1" : "0";
+  if ('defaultOption' in widget) {
+    encoded += widget.defaultOption ? '1' : '0';
   }
 
   return encoded;
@@ -35,8 +35,8 @@ function widgetEncoder(abbr: string, widget: Widget): string {
 function widgetDecoder(type: WidgetType, encoded: string): Widget {
   const widgetBuild = {
     type,
-    required: encoded[3] === "1",
-    label: encoded[4] === "1" ? "Placeholder label" : undefined,
+    required: encoded[3] === '1',
+    label: encoded[4] === '1' ? 'Placeholder label' : undefined,
     min: undefined as undefined | number,
     max: undefined as undefined | number,
     step: undefined as undefined | number,
@@ -44,29 +44,29 @@ function widgetDecoder(type: WidgetType, encoded: string): Widget {
     defaultOption: undefined as undefined | boolean
   };
 
-  if (type === "WidgetInputNumber" || type === "WidgetScale") {
+  if (type === 'WidgetInputNumber' || type === 'WidgetScale') {
     widgetBuild.min = parseInt(encoded.slice(5, 8), 10);
     widgetBuild.max = parseInt(encoded.slice(8, 11), 10);
 
-    if (type === "WidgetScale") {
+    if (type === 'WidgetScale') {
       widgetBuild.step = parseInt(encoded.slice(11, 14), 10);
     }
   }
 
-  if (type === "WidgetSelect" || type === "WidgetCheckbox") {
+  if (type === 'WidgetSelect' || type === 'WidgetCheckbox') {
     const numOptions = parseInt(encoded.slice(5, 8), 10);
 
     widgetBuild.options =
-      type === "WidgetSelect"
+      type === 'WidgetSelect'
         ? Array.from(Array(numOptions)).map((_, i) => ({
           value: `${i + 1}`,
           displayValue: `Option ${i + 1}`
         }))
         : [
-          { value: "yes", displayValue: "Yes" },
-          { value: "no", displayValue: "No" }
+          { value: 'yes', displayValue: 'Yes' },
+          { value: 'no', displayValue: 'No' }
         ];
-    widgetBuild.defaultOption = encoded[8] === "1";
+    widgetBuild.defaultOption = encoded[8] === '1';
   }
 
   const widget: any = {};
@@ -81,7 +81,7 @@ function widgetDecoder(type: WidgetType, encoded: string): Widget {
 }
 
 export function encodeWidgets(widgets: Widget[]): string {
-  let encoded = "";
+  let encoded = '';
 
   for (const widget of widgets) {
     const key = widgetTypeToKeyMap[widget.type];
@@ -123,26 +123,26 @@ export function createWidget(
   const step = range && range.step ? range.step : 10;
 
   switch (type) {
-    case "WidgetInputText": {
+    case 'WidgetInputText': {
       return {
-        type: "WidgetInputText",
+        type: 'WidgetInputText',
         required,
         label,
-        title: ""
+        title: ''
       };
     }
-    case "WidgetInputNumber": {
+    case 'WidgetInputNumber': {
       return {
-        type: "WidgetInputNumber",
+        type: 'WidgetInputNumber',
         required,
         label,
         min,
         max
       };
     }
-    case "WidgetScale": {
+    case 'WidgetScale': {
       return {
-        type: "WidgetScale",
+        type: 'WidgetScale',
         required,
         label,
         min,
@@ -150,28 +150,28 @@ export function createWidget(
         step
       };
     }
-    case "WidgetSelect": {
+    case 'WidgetSelect': {
       return {
-        type: "WidgetSelect",
+        type: 'WidgetSelect',
         required,
         label,
         options: [
-          { value: "yes", displayValue: "Yes" },
-          { value: "no", displayValue: "No" }
+          { value: 'yes', displayValue: 'Yes' },
+          { value: 'no', displayValue: 'No' }
         ],
         defaultOption: null
       };
     }
-    case "WidgetCheckbox": {
+    case 'WidgetCheckbox': {
       return {
-        type: "WidgetCheckbox",
+        type: 'WidgetCheckbox',
         required,
         label,
         options: [
-          { value: "yes", displayValue: "Yes" },
-          { value: "no", displayValue: "No" }
+          { value: 'yes', displayValue: 'Yes' },
+          { value: 'no', displayValue: 'No' }
         ],
-        defaultOption: { value: "yes", displayValue: "Yes" }
+        defaultOption: { value: 'yes', displayValue: 'Yes' }
       };
     }
     default: {
