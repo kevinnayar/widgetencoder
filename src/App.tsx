@@ -7,15 +7,11 @@ import { Dropdown } from './components/Dropdown';
 import { Checkbox } from './components/Checkbox';
 import { Button } from './components/Button';
 
-import { Widget, WidgetType, SearchResult } from './types/widgetTypes';
 import { widgetList, encodedLists } from './constants';
-import {
-  createWidget,
-  encodeWidgets,
-  decodeWidgets,
-  getSearchResults,
-  // generateRandomCollections
-} from './utils/encodingUtils';
+import { encodeWidgets } from './utils/encodingUtils';
+import { decodeWidgets } from './utils/decodingUtils';
+import { createWidget, getSearchResults, /* generateRandomCollections */ } from './utils/generationUtils';
+import { Widget, WidgetType, SearchResult } from './types/widgetTypes';
 
 const App = () => {
   const [widgetType, setWidgetType] = useState<WidgetType>('WidgetInputText');
@@ -29,6 +25,8 @@ const App = () => {
 
   const [results, setResults] = useState<SearchResult[]>([]);
   const [showResults, setShowResults] = useState(false);
+
+  console.log(encodedLists);
 
   const handleSetWidgetType = (e: any) => {
     const type = e.target.value as WidgetType;
